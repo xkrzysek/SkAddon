@@ -1,16 +1,19 @@
 package amao.krzysek.skaddon.register.effects.servers;
 
+import
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class Shutdown extends Effect {
+
+    private SkriptAddon skriptAddon;
 
     Expression<?> message;
 
@@ -19,6 +22,7 @@ public class Shutdown extends Effect {
         if(message == null)
             Bukkit.getServer().shutdown();
         else {
+            skriptAddon = new SkriptAddon();
             String msg = (String) message.getSingle(e);
             for(int i = 0;i != 10;i++)
                 Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -26,7 +30,7 @@ public class Shutdown extends Effect {
                 public void run() {
                         Bukkit.getServer().shutdown();
                     }
-            }.runTaskLater(Bukkit.getPluginManager().getPlugin("SkAddon"), 200L);
+            }.runTaskLater(skriptAddon.getInstace(), 200L);
         }
     }
 
